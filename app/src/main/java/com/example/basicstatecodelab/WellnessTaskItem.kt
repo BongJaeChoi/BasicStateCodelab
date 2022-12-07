@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,13 +43,18 @@ fun WellnessTaskItem(
 }
 
 @Composable
-fun WellnessTaskItem(taskItem: String, modifier: Modifier = Modifier) {
-    var checkedState by remember { mutableStateOf(false) }
+fun WellnessTaskItem(
+    taskItem: String,
+    onCloseTask: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var checkedState by rememberSaveable { mutableStateOf(false) }
     WellnessTaskItem(
         taskItem = taskItem,
         checked = checkedState,
-        onClose = {},
-        onCheckedChange = { newValue -> checkedState = newValue }
+        onClose = onCloseTask,
+        onCheckedChange = { newValue -> checkedState = newValue },
+        modifier = modifier
     )
 }
 
